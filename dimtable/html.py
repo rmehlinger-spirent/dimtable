@@ -1,3 +1,6 @@
+from setuptools.compat import unicode
+
+
 def lonetag(tag, **kwargs):
     attrs = ['%s="%s"' % (key, value) for key,value in kwargs.iteritems()]
     return u'<%s>' % (u' '.join([tag] + attrs))

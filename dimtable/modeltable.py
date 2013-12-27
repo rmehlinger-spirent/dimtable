@@ -8,13 +8,12 @@ import json
 from django.utils.safestring import mark_safe
 from django.core import exceptions
 import django.db.models.fields.related
-from django.forms.widgets import TextInput
 import django.db.models.fields
 
 import html
+from setuptools.compat import unicode
 import dimtable
 import ddict
-from dimtable import Dim
 
 logger = logging.getLogger('dimtable')
 
@@ -44,7 +43,7 @@ def parse_value(valstr, field):
     try:
         if valstr or field.empty_strings_allowed:
             value = field.to_python(valstr)
-    except exceptions.ValidationError, e:
+    except exceptions.ValidationError as e:
         error = e
     return value, error
 
@@ -532,13 +531,13 @@ class Presenter(object):
     def parse_cell_details(self, data, inst_id_str):
         try:
             cellix = int(data)
-        except SyntaxError, err:
+        except SyntaxError as err:
             logger.error("badly formatted cell index:" + data)
             raise err
 
         try:
             instance_id = int(inst_id_str)
-        except ValueError, err:
+        except ValueError as err:
             logger.error("badly formatted instance id:" + data)
             raise err
         return cellix, instance_id
@@ -549,7 +548,7 @@ class Presenter(object):
         try:
             if valuestr or self.cell_fields[fix].empty_strings_allowed:
                 value = self.cell_fields[fix].to_python(valuestr)            
-        except exceptions.ValidationError, err:
+        except exceptions.ValidationError as err:
             raise err
         return value
 
@@ -561,9 +560,9 @@ class Presenter(object):
         try:
             value = self.validate_cell(cellix, valuestr)
             self.data.save(cellix, instance_id, value)
-        except exceptions.ValidationError, err:
+        except exceptions.ValidationError as err:
             self.cell_errors[cellix] = CellError(err, cellix, valuestr)
-        except Exception, err:
+        except Exception as err:
             logger.error("Error: save_cell %s %s => %s " % (str(cellix),
                                                             valuestr,
                                                             unicode(err)))
@@ -582,10 +581,10 @@ class Presenter(object):
                 value = self.validate_cell(cellix, valuestr)
                 default = self.default_for_cell(cellix)
                 valuedict[cellix] = (value, default)
-            except exceptions.ValidationError, err:                
+            except exceptions.ValidationError as err:
                 self.cell_errors[cellix] = CellError(err, cellix, valuestr)
                 had_errors = True
-            except Exception, err:
+            except Exception as err:
                 logger.error("Error: save_cells: validate_cell %s %s => %s " % 
                              (str(cellix),
                               valuestr,

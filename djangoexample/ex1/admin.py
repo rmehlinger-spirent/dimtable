@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import *
+from .models import *
 
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name')

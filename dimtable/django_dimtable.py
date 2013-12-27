@@ -5,7 +5,6 @@
 # which is to be replaced later.
 
 import modeltable
-from modeltable import Dim
 
 class Model: 
     def __init__(self, queryset):

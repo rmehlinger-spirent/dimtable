@@ -9,7 +9,7 @@ class Command(BaseCommand):
         firsts = [u"Juhani", u'Ville', u'Andy', u'Tommi', u'Teemu']
         lasts  = [u'Virtanen', u'Johnson', u'Tikkanen']
         
-        for i in xrange(10):
+        for i in range(10):
             e = Employee.objects.create(first_name = random.choice(firsts),
                                         last_name  = random.choice(lasts))
             e.save()

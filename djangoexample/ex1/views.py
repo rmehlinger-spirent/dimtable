@@ -6,7 +6,7 @@ from django.template  import RequestContext
 from django.http      import (HttpResponse, HttpResponseRedirect,
                               HttpResponseBadRequest, Http404)
 
-from models import * 
+from .models import *
 from dimtable.django_dimtable import Model, Table, Dim
 
 
@@ -17,7 +17,7 @@ def edit_sales(request):
     products  = Product.objects.all()
 
     today = datetime.date.today()
-    dates = [today + datetime.timedelta(x) for x in xrange(7)]
+    dates = [today + datetime.timedelta(x) for x in range(7)]
 
     sales = DailySale.objects.filter( Q(date__gte = dates[0]) & 
                                       Q(date__lte = dates[-1]))

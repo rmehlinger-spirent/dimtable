@@ -1,13 +1,14 @@
+from functools import reduce
 import operator
-from string import maketrans 
 from django.utils.safestring import mark_safe
-
-import html
-from html import *
+from setuptools.compat import unicode
 
 # ----------------------------------------------------------------------
 # DimItem
 # ----------------------------------------------------------------------
+import html
+from html import *
+
 
 class DimItem:
     def value(self): return None
@@ -206,7 +207,7 @@ class Table:
             cssclasses     = item.css_classes()
             representation = item.representation()
             current = th(representation, 
-                         **{'rowspan': cspan,
+                         **{'colspan': cspan,
                             'class':  u' '.join(cssclasses)})
             ths.append(current)
         sub = u''.join(ths)
@@ -218,7 +219,6 @@ class Table:
     def row_headers(self,dix, rixes):
         if dix == len(self.rowdims):
             return []
-
         dim = self.rowdims[dix]
         vix = rixes[dix]
 
