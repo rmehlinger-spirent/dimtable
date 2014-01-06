@@ -2,6 +2,12 @@ Dimtable is a Python library that provides editable, multidimensional HTML table
 
 Django model integration is provided out of the box. 
 
+Priorities
+----------
+
+The top priority in this fork is currently removing all HTML generation code from the python files. Instead,
+we want to rely on the Django templates to generate the HTML. This will give the user much greater power to customize
+and style the tables.
 
 Requirements
 ------------
