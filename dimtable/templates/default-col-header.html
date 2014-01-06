@@ -1,0 +1,5 @@
+<th class='col-header' colspan={{ col_group.span }}
+        {% for dim, val in col.dimensions.items %}dim_{{ dim }}="{{ val }}" {% endfor %}
+        count='{{ col.dimensions|length }}'>
+    {{ col.val }}
+</th>

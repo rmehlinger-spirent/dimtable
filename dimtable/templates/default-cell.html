@@ -1,0 +1,3 @@
+<td {% block cell-attrs %}{% for dim_name, dim_value in cell.position.items %}dim_{{ dim_name }}='{{ dim_value }}' {% endfor %}{% endblock %}class='{% block cell-class %}{% endblock %}'>
+    {% block cell-contents %}{{ cell }}{% endblock %}
+</td>

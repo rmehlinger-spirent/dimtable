@@ -22,3 +22,6 @@ TAGS
 *.tmp
 out/
 xcuserdata/
+setup.py
+*/.idea/*
+.idea/*

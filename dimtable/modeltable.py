@@ -12,8 +12,8 @@ import django.db.models.fields
 
 import html
 from setuptools.compat import unicode
-import dimtable
-import ddict
+from . import dimtable
+from . import ddict
 
 logger = logging.getLogger('dimtable')
 

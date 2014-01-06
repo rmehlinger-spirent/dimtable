@@ -17,6 +17,3 @@ class Command(BaseCommand):
         for p in ['iPhone 4S', 'Nokia N9', 'Galaxy S']:
             p = Product.objects.create(name = p)
             p.save()
-        
-
- 

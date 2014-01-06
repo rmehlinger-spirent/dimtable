@@ -1,14 +1,14 @@
+from decimal import Decimal, InvalidOperation
 from functools import reduce
 import operator
 from django.utils.safestring import mark_safe
 from setuptools.compat import unicode
+from . import html
+from .html import *
 
 # ----------------------------------------------------------------------
 # DimItem
 # ----------------------------------------------------------------------
-import html
-from html import *
-
 
 class DimItem:
     def value(self): return None
@@ -34,8 +34,15 @@ def label_items(xs): return [LabelItem(x) for x in xs]
 # describing values of the dimension
 # ----------------------------------------------------------------------
 class Dim:
-    def __init__(self, items):
-        self.items = items
+    def __init__(self, items, name=''):
+        self.name = name
+        #attempt to sort numerically, then use defau
+        try:
+            self.items = sorted(items, key=lambda x: Decimal(x.value()))
+        except InvalidOperation:
+            self.items = sorted(items, key=lambda x: x.value())
+        except TypeError:
+            self.items = sorted(items, key=lambda x: x.value())
 
     def values(self):
         return [item.value() for item in self.items]
@@ -84,6 +91,11 @@ class DimIter:
         self._lens = [len(dim) for dim in dims]
 
      # iterator should be changed to implement more,next,get
+
+    def get_key(self):
+        return {
+            self.dims[i].name: self.dims[i].items[self.ixes[i]].representation() for i in range(len(self.ixes))
+        }
 
     def get(self):
         return tuple(self.ixes) #DimIndex(self.ixes)
@@ -162,7 +174,7 @@ class Data:
 class Table:
     def __init__(self, 
                  coldims,
-                 rowdims,                 
+                 rowdims,
                  **kwargs):
         self.coldims   = coldims if hasattr(coldims, '__iter__') else [coldims]
         self.rowdims   = rowdims if hasattr(rowdims, '__iter__') else [rowdims]
@@ -256,7 +268,7 @@ class Table:
             ths = self.row_headers(dix, riter.get())
             tds = self.row_cells(riter.get())
 
-            if (use_groups):
+            if use_groups:
                 if riter.first_of_group():
                     attrs = {'class':'first-of-group'}
                 elif riter.last_of_group():
@@ -314,7 +326,7 @@ class Table:
     def render(self):
         output = []
         output.append(self.hidden_data_dimensions(self.prefix))
-        output.append(u'<table class="%s">' % (self.css_class))
+        output.append(u'<table class="%s">' % self.css_class)
         output.append(self.thead())
         output.append(self.tbody())
         output.append(self.tfoot())

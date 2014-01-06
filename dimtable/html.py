@@ -2,11 +2,11 @@ from setuptools.compat import unicode
 
 
 def lonetag(tag, **kwargs):
-    attrs = ['%s="%s"' % (key, value) for key,value in kwargs.iteritems()]
+    attrs = ['%s="%s"' % (key, value) for key,value in kwargs.items()]
     return u'<%s>' % (u' '.join([tag] + attrs))
 
-def tagify(tag, content, **kwargs): 
-    attrs = ['%s="%s"' % (key, value) for key,value in kwargs.iteritems()]
+def tagify(tag, content, **kwargs):
+    attrs = ['%s="%s"' % (key, value) for key,value in kwargs.items()]
     return u'<%s>%s</%s>' % (u" ".join([tag] + attrs), unicode(content), tag)
 
 def th(content, **kwargs): return tagify('th', content, **kwargs)
@@ -17,6 +17,12 @@ def tr(content, **kwargs):
         return tagify('tr', u"".join(content), **kwargs)
     else:
         return tagify('tr', content, **kwargs)
+
+def thead(content, **kwargs):
+    if type(content) == list:
+        return tagify('thead', u"".join(content), **kwargs)
+    else:
+        return tagify('thead', content, **kwargs)
 
 def input(**kwargs): 
     return lonetag('input', **kwargs)

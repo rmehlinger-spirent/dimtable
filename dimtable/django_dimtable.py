@@ -4,7 +4,7 @@
 # Actual implementation is using the old API and old implementation from modeltable, 
 # which is to be replaced later.
 
-import modeltable
+from dimtable import modeltable
 
 class Model: 
     def __init__(self, queryset):

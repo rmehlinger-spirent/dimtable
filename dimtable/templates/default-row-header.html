@@ -1,0 +1,3 @@
+<th class='row-header' rowspan={{ header.span }} {% for dim, value in header.dimensions.items %}dim_{{ dim }}="{{ value }}" {% endfor %} count='{{ header.dimensions|length }}'>
+    {{ header.item.representation }}
+</th>

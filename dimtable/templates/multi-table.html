@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<link href='{% static "css/dimtable.css" %}' type='text/css' rel='stylesheet'>
+<thead class='col-headers'>
+{% if not data.degenerate %}
+    {% for col_group in data.col_groups %}
+        <tr>
+            {% include col_title_template %}
+            {% for col in col_group.columns %}
+                {% include col_header_template %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+{% endif %}
+</thead>
+
+<thead class='header-spacer'>
+    <tr>
+        {% for header in data.rows.0.headers %}
+            {% include row_title_template %}
+        {% endfor %}
+        {% with data.col_groups|last as last %}
+            {% for col in last.columns %}
+                <th class='empty-header'>&zwnj;</th>
+            {% endfor %}
+        {% endwith %}
+    </tr>
+</thead>
+
+<tbody dimensions='{{ data.dimension_json }}' col_dims='{{ data.col_dim_json }}' row_dims='{{ data.row_dim_json }}'{% if data.degenerate %}degenerate{% endif %}>
+    {% for row in data.rows %}
+        <tr>
+            {% for header in row.headers %}
+                {% include row_header_template %}
+            {% endfor %}
+            {% for cell in row.cells %}
+                {% include cell_template %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</tbody>
